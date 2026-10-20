@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -11,7 +12,8 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
+        $students = Student::all();
+        return view('students.index', compact('students'));
     }
 
     /**
@@ -19,7 +21,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        return view('students.create');
     }
 
     /**
@@ -27,7 +29,14 @@ class StudentController extends Controller
      */
     public function store()
     {
-        //
+        $student = new Student();
+        $student->name = request('name');
+        $student->email = request('email');
+        $student->phone = request('phone');
+        $student->department = request('department');
+        $student->age = request('age');
+        $student->save();
+        return redirect('/students');
     }
 
     /**
@@ -35,7 +44,8 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        //
+        $student = Student::findOrFail($id);
+        return view('students.show', compact('student'));
     }
 
     /**
@@ -43,7 +53,8 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $student = Student::findOrFail($id);
+        return view('students.edit', compact('student'));        
     }
 
     /**
@@ -51,7 +62,14 @@ class StudentController extends Controller
      */
     public function update($id)
     {
-        //
+        $student = Student::findOrFail($id);
+        $student->name = request('name');
+        $student->email = request('email');
+        $student->phone = request('phone');
+        $student->department = request('department');
+        $student->age = request('age');
+        $student->save();
+        return redirect('/students');
     }
 
     /**
@@ -59,6 +77,8 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $student = Student::findOrFail($id);
+        $student->delete();
+        return redirect('/students');
     }
 }
